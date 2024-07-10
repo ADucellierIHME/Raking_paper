@@ -1,0 +1,20 @@
+name: raking
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - altair
+  - dash
+  - dash-bootstrap-components
+  - jupyter
+  - line_profiler
+  - matplotlib
+  - notebook
+  - numpy
+  - openpyxl
+  - pandas
+  - plotly
+  - pyreadr
+  - scipy
+  - vl-convert-python
+
