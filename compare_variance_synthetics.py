@@ -36,8 +36,8 @@ x = rng.multivariate_normal(mean, cov, 1000)
 x_0 = np.mean(x, 0)
 (mu_0, lambda_k) = raking_chi2_distance(x_0, np.ones(15), A, y)
 
-df_raked = pd.DataFrame({'var1': var1, \
-                         'var2': var2, \
+df_raked = pd.DataFrame({'X1': var1, \
+                         'X2': var2, \
                          'observations': x_0, \
                          'raked_values': mu_0})
 
@@ -49,8 +49,8 @@ df_y = []
 for i in range(0, 15):
     df_x.append(pd.DataFrame({'raked_1': np.repeat(var1[i], 15), \
                               'raked_2': np.repeat(var2[i], 15), \
-                              'var1': var1, \
-                              'var2': var2, \
+                              'X1': var1, \
+                              'X2': var2, \
                               'grad_x': dh_x[i, :]}))
     df_y.append(pd.DataFrame({'raked_1': np.repeat(var1[i], 8), \
                               'raked_2': np.repeat(var2[i], 8), \
