@@ -8,4 +8,6 @@ The script compare_variance_synthetics.py is used to generate the synthetic data
 
 The scripts synthetics_*.py are used to make the figures.
 
+The Jupyter notebook explains how to generate a synthetic dataset and compare the raked values and their uncertainties obtained with the Delta method and Implicit Function Theorem and with the Monte Carlo simulations.
+
 Please install the necessary Python modules using the environment.yml file.
