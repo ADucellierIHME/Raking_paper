@@ -6,7 +6,7 @@ import pickle
 
 pd.options.mode.chained_assignment = None
 
-with open('synthetics.pkl', 'rb') as output_file:
+with open('results/synthetics.pkl', 'rb') as output_file:
     [mu_ij, df_raked, df_x, df_y, covariance_mean, mean_draws, covariance_draws] = pickle.load(output_file)
 
 var1 = [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]
@@ -25,7 +25,7 @@ base = alt.Chart(df_x_loc).encode(
 
 heatmap = base.mark_rect().encode(
     color=alt.Color('grad_x:Q',
-        scale=alt.Scale(scheme='redblue', domain=[-max_scale, max_scale]),
+        scale=alt.Scale(scheme='redblue', domain=[-max_scale, max_scale], reverse=True),
         legend=alt.Legend(title=['Effect of', 'one obs.']))
 )
 
@@ -35,7 +35,6 @@ text = base.mark_text(baseline='middle').encode(
 
 chart = alt.layer(heatmap, text
 ).properties(
-    title='X1 = ' + str(int(index_var1)) + ' - X2 = ' + str(int(index_var2)),
     width=120,
     height=180
 ).configure_title(

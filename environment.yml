@@ -13,10 +13,13 @@ dependencies:
   - numpy
   - openpyxl
   - pandas
+  - pip
   - plotly
   - pyreadr
   - scipy
   - vegafusion>=1.5.0
   - vegafusion-python-embed>=1.5.0
   - vl-convert-python
+  - pip:
+    - dash-vega-components
 
