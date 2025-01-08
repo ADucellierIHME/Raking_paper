@@ -11,3 +11,12 @@ The scripts synthetics_*.py are used to make the figures.
 The Jupyter notebook explains how to generate a synthetic dataset and compare the raked values and their uncertainties obtained with the Delta method and Implicit Function Theorem and with the Monte Carlo simulations.
 
 Please install the necessary Python modules using the environment.yml file.
+
+
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install altair dash dash-bootstrap-components ipykernel jupyterlab matplotlib notebook numpy pandas plotly scipy vegafusion vegafusion-python-embed vl-convert-python dash-vega-components
+pip install -e .
+python3 -m ipykernel install --user --name env_raking --display-name "env_raking"
+jupyter lab
