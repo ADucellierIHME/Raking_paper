@@ -33,7 +33,7 @@ python3 -m pip install --upgrade pip
 
 - Install necessary Python packages. I usually install all of these:
 ```
-python3 -m pip install altair dash dash-bootstrap-components ipykernel jupyterlab matplotlib notebook numpy pandas plotly scipy vegafusion vegafusion-python-embed vl-convert-python dash-vega-components
+python3 -m pip install altair dash dash-bootstrap-components ipykernel jupyterlab matplotlib notebook numpy pandas plotly scipy vegafusion vegafusion-python-embed vl-convert-python dash-vega-components pyreadr
 ```
 
 - Install the raking package:
