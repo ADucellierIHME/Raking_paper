@@ -13,7 +13,7 @@ K = 3
 
 # Location of raked value
 k = 1
-j = 2
+j = 1
 i = 2
 index = (I + 1) * (J + 1) * int(k) + (I + 1) * int(j) + int(i)
 
@@ -106,10 +106,10 @@ obs = Dphi_s[index, :]
 
 # Data frame to store and plot the values
 cause_column = []
-for i_index in range(0, I + 1):
+for i_index in range(1, I + 1):
     cause_column.append(causes[i_index])
 df = pd.DataFrame({'cause': cause_column})
-df['gradient'] = obs[0:(I + 1)]
+df['gradient'] = obs[0:I]
 
 # Plot for margins
 chart_margins = alt.Chart(df).mark_bar().encode(
@@ -133,5 +133,5 @@ chart = alt.hconcat(chart_margins, chart_county, chart_cause, chart_race
 ).configure_text(
     fontSize=8
 )
-chart.save('most_important_raked_value.svg')
+chart.save('most_important_raked_value_25.svg')
 

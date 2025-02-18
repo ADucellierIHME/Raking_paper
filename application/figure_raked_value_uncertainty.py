@@ -5,7 +5,7 @@ import pickle
 
 pd.options.mode.chained_assignment = None
 
-with open('results_0.pkl', 'rb') as fp:
+with open('results_25.pkl', 'rb') as fp:
     [df_obs, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 
 df_initial = df_obs[['cause', 'race', 'county', 'value', 'upper', 'std']]. \
@@ -25,8 +25,6 @@ df['Value'] = df['Value'] / df['pop']
 df['Upper'] = df['Value'] + df['std'] / df['pop']
 df['Lower'] = df['Value'] - df['std'] / df['pop']
 
-max_x = max(df['Value'])
-
 # Replace names
 df['cause'] = df['cause'].replace('_all', 'All')
 df['cause'] = df['cause'].replace('_comm', 'Comm.')
@@ -45,7 +43,6 @@ df['county'] = df['county'].replace(303, 'Sussex')
 # Fix race and county, show values by cause
 bar = alt.Chart(df).mark_errorbar(clip=True, opacity=0.5).encode(
     alt.X('Upper:Q',
-        scale=alt.Scale(domain=[-0.1 * max_x, 1.1 * max_x], zero=False),
         axis=alt.Axis(title='Raked value')),
     alt.X2('Lower:Q'),
     alt.Y('cause:N',
@@ -76,12 +73,11 @@ chart = alt.layer(point, bar).resolve_scale(
     labelFontSize=24,
     titleFontSize=24
 )
-chart.save('raked_values_with_uncertainty_by_cause.svg')
+chart.save('raked_values_with_uncertainty_by_cause_25.svg')
 
 # Fix cause and county, show values by race
 bar = alt.Chart(df).mark_errorbar(clip=True, opacity=0.5).encode(
     alt.X('Upper:Q',
-        scale=alt.Scale(domain=[-0.1 * max_x, 1.1 * max_x], zero=False),
         axis=alt.Axis(title='Raked value')),
     alt.X2('Lower:Q'),
     alt.Y('race:N',
@@ -112,12 +108,11 @@ chart = alt.layer(point, bar).resolve_scale(
     labelFontSize=24,
     titleFontSize=24
 )
-chart.save('raked_values_with_uncertainty_by_race.svg')
+chart.save('raked_values_with_uncertainty_by_race_25.svg')
 
 # Fix cause and race, show values by county
 bar = alt.Chart(df).mark_errorbar(clip=True, opacity=0.5).encode(
     alt.X('Upper:Q',
-        scale=alt.Scale(domain=[-0.1 * max_x, 1.1 * max_x], zero=False),
         axis=alt.Axis(title='Raked value')),
     alt.X2('Lower:Q'),
     alt.Y('county:N',
@@ -148,5 +143,5 @@ chart = alt.layer(point, bar).resolve_scale(
     labelFontSize=24,
     titleFontSize=24
 )
-chart.save('raked_values_with_uncertainty_by_county.svg')
+chart.save('raked_values_with_uncertainty_by_county_25.svg')
 

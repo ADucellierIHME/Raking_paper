@@ -13,7 +13,7 @@ K = 3
 
 # Location of initial value
 k = 1
-j = 2
+j = 1
 i = 2
 index = (I + 1) * (J + 1) * int(k) + (I + 1) * int(j) + int(i)
 
@@ -113,5 +113,5 @@ chart = alt.hconcat(chart_county, chart_cause, chart_race
 ).configure_text(
     fontSize=8
 )
-chart.save('most_important_initial_value.svg')
+chart.save('most_important_initial_value_25.svg')
 
