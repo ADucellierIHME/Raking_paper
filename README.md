@@ -1,4 +1,4 @@
-# JUQ_paper
+# Raking paper
 
 This repository contains a Jupyter notebook necessary to reproduce the figures for the synthetic dataset in the paper Uncertainty Quantification under Noisy Constraints, with Applications to Raking submitted to JUQ.
 
