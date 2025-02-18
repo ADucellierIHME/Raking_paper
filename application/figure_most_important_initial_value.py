@@ -4,23 +4,21 @@ import pandas as pd
 import pickle
 
 # Name and number of causes, races and counties
-causes = ['All', 'Comm.', 'NCD', 'Inj.']
+causes = ['All', 'Comm.', 'Inj.', 'NCD']
 races = ['All', 'White', 'Black', 'AIAN', 'API', 'Hisp.']
 counties = ['Kent', 'New Castle', 'Sussex'] 
 I = 3
 J = 5
 K = 3
-N = (I + 1) * (J + 1) * K
-M = 1 + I + 2 * K + 2 * J * K
 
 # Location of initial value
 k = 1
 j = 2
-i = 3 # Injuries
+i = 2
 index = (I + 1) * (J + 1) * int(k) + (I + 1) * int(j) + int(i)
 
 # Read gradient with respect to the data
-with open('results.pkl', 'rb') as fp:
+with open('results_25.pkl', 'rb') as fp:
     [df_obs, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 
 obs = Dphi_y[:, index]

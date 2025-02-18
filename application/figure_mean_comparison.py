@@ -1,24 +1,21 @@
 import altair as alt
 import numpy as np
 import pandas as pd
+import pickle
 
 # All draws
-df_all = pd.read_csv('results/Delaware_all_draws/mx_by_cause_by_race_by_county_10_2017_3.csv')
-df_all = df_all.groupby(['level', 'area', 'year', 'sex', 'race', 'age', 'cause', 'mcnty', 'state']).mean().reset_index()
-df_all['all_draws'] = df_all['entropic_distance'] # / df_all['pop']
-df_all = df_all.drop(columns=['level', 'area', 'year', 'sex', 'state', \
-    'mx', 'sim', 'value', 'pop', \
-    'entropic_distance', 'chi2_distance', 'l2_distance', 'logit'])
+with open('results_25_MC.pkl', 'rb') as fp:
+    df_all = pickle.load(fp)
+df_all = df_all.groupby(['cause', 'race', 'county']).mean().reset_index()
+df_all.rename(columns={'raked_value': 'all_draws'}, inplace=True)
 
 # With IFT and delta method
-df = pd.read_csv('results/Delaware/mx_by_cause_by_race_by_county_10_2017_3.csv')
-df['mean'] = df['entropic_distance'] # / df['pop']
-df = df.drop(columns=['level', 'area', 'year', 'sex', 'state', \
-    'mx', 'sim', 'value', 'pop', \
-    'entropic_distance', 'chi2_distance', 'l2_distance', 'logit'])
+with open('results_25.pkl', 'rb') as fp:
+    [df, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
+df.rename(columns={'raked_value': 'mean'}, inplace=True)
 
 # Merge
-df_both = df_all.merge(df, how='inner', on=['race', 'age', 'cause', 'mcnty'])
+df_both = df_all.merge(df, how='inner', on=['cause', 'race', 'county'])
 
 min_x = min(df_both['all_draws'].min(), df_both['mean'].min())
 max_x = max(df_both['all_draws'].max(), df_both['mean'].max())
@@ -26,7 +23,7 @@ max_x = max(df_both['all_draws'].max(), df_both['mean'].max())
 # Plot
 points = alt.Chart(df_both).mark_circle(size=60).encode(
     x=alt.X('all_draws:Q', \
-        axis=alt.Axis(title='Using all draws'), \
+        axis=alt.Axis(title='Using all samples'), \
         scale=alt.Scale(domain=[min_x, max_x], zero=False)),
     y=alt.Y('mean:Q', \
         axis=alt.Axis(title='Using the mean'), \
@@ -42,5 +39,5 @@ chart = (diagonal + points).configure_axis(
     labelFontSize=24,
     titleFontSize=24
 )
-chart.save('comparison_means.svg')
+chart.save('comparison_means_25.svg')
 

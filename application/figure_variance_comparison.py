@@ -1,37 +1,32 @@
 import altair as alt
 import numpy as np
 import pandas as pd
+import pickle
 
 # All draws
-df_all = pd.read_csv('results/Delaware_all_draws/mx_by_cause_by_race_by_county_10_2017_3.csv')
-df_all = df_all.groupby(['level', 'area', 'year', 'sex', 'race', 'age', 'cause', 'mcnty', 'state', 'pop']).var().reset_index()
+with open('results_0_MC.pkl', 'rb') as fp:
+    df_all = pickle.load(fp)
+df_all = df_all.groupby(['cause', 'race', 'county']).std().reset_index()
+df_all.rename(columns={'raked_value': 'all_draws'}, inplace=True)
 
 # With IFT and delta method
-ages = [0, 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80]
-dfs = []
-for age in ages:
-    df = pd.read_csv('results/variance/mx_by_cause_by_race_by_county_10_2017_3_' + \
-        str(age) + '_variance_fixed.csv')
-    df['age'] = age
-    dfs.append(df)
-dfs = pd.concat(dfs)
+with open('results_0.pkl', 'rb') as fp:
+    [df, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
+df.rename(columns={'variance': 'delta_method'}, inplace=True)
+df['delta_method'] = np.sqrt(df['delta_method']) 
 
 # Merge
-df_both = df_all.merge(dfs, how='inner', \
-    left_on=['mcnty', 'age', 'cause', 'race'], \
-    right_on=['county', 'age', 'cause', 'race'])
-df_both['entropic_distance'] = np.sqrt(df_both['entropic_distance']) 
-df_both['entropic'] = np.sqrt(df_both['entropic'])
+df_both = df_all.merge(df, how='inner', on=['cause', 'race', 'county'])
 
-min_x = min(df_both['entropic_distance'].min(), df_both['entropic'].min())
-max_x = max(df_both['entropic_distance'].max(), df_both['entropic'].max())
+min_x = min(df_both['all_draws'].min(), df_both['delta_method'].min())
+max_x = max(df_both['all_draws'].max(), df_both['delta_method'].max())
 
 # Plot
 points = alt.Chart(df_both).mark_circle(size=60).encode(
-    x=alt.X('entropic_distance:Q', \
-        axis=alt.Axis(title='Using all draws'), \
+    x=alt.X('all_draws:Q', \
+        axis=alt.Axis(title='Using all samples'), \
         scale=alt.Scale(domain=[min_x, max_x], zero=False)),
-    y=alt.Y('entropic:Q', \
+    y=alt.Y('delta_method:Q', \
         axis=alt.Axis(title='Using delta method'), \
         scale=alt.Scale(domain=[min_x, max_x], zero=False))
 )
@@ -45,5 +40,5 @@ chart = (diagonal + points).configure_axis(
     labelFontSize=24,
     titleFontSize=24
 )
-chart.save('comparison_variances.svg')
+chart.save('comparison_variances_0.svg')
 

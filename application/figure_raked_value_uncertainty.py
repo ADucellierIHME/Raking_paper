@@ -5,7 +5,7 @@ import pickle
 
 pd.options.mode.chained_assignment = None
 
-with open('results.pkl', 'rb') as fp:
+with open('results_0.pkl', 'rb') as fp:
     [df_obs, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 
 df_initial = df_obs[['cause', 'race', 'county', 'value', 'upper', 'std']]. \
