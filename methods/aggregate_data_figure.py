@@ -1,8 +1,6 @@
 import altair as alt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 from raking.experimental import  DataBuilder , DualSolver, PrimalSolver
 
@@ -76,12 +74,12 @@ error_obs = pd.DataFrame({
 })
 
 # Create a boxplot
-chart = alt.Chart(error_obs).mark_boxplot(extent='min-max', size=50, median=False).encode(
-    alt.X('Dataset:N', axis=alt.Axis(labelAngle=0)),
-    alt.Y('Relative Error:Q')
+chart = alt.Chart(error_obs).mark_boxplot(extent='min-max', size=50, median=True).encode(
+    alt.X('Relative Error:Q').scale(type='log'),
+    alt.Y('Dataset:N')
 ).properties(
-    width=200,
-    height=150
+    width=500,
+    height=100
 ).configure_axis(
     labelFontSize=14,
     titleFontSize=14

@@ -21,7 +21,7 @@ margins['weights'] = np.inf
 
 df = pd.concat([ \
     observations[['value', 'cause', 'race', 'county', 'weights']], \
-    margins[['value', 'cause', 'race', 'county', 'weights']]]).reset_index()
+    margins[['value', 'cause', 'race', 'county', 'weights']]]).reset_index(drop=True)
 
 data_builder = DataBuilder(
     dim_specs={'cause': '_all', 'race': 0, 'county': 0},
@@ -108,24 +108,88 @@ assert np.allclose(sum_over_race_county.value.to_numpy(), \
 result3 = pd.concat([soln3, sum_over_cause, sum_over_race, sum_over_cause_race]). \
     merge(df, how='inner', on=['cause', 'race', 'county'])
 
+# Raking with missing value for the specific causes only, but the aggregate (all causes) is not missing
+df4 = df.copy(deep=True)
+df4['value'].loc[(df4.cause!='_all')&(df4.race==3)&(df4.county==533)] = np.nan
+df4['weights'].loc[(df4.cause!='_all')&(df4.race==3)&(df4.county==533)] = 0.0
+df4.reset_index(drop=True, inplace=True)
+
+data4 = data_builder.build(df4)
+
+solver4 = DualSolver(distance='entropic', data=data4)
+soln4 = solver4.solve()
+
+sum_over_cause = soln4.groupby(['race', 'county']).agg({'soln': 'sum'}).reset_index()
+sum_over_cause['cause'] = '_all'
+
+sum_over_race = soln4.groupby(['cause', 'county']).agg({'soln': 'sum'}).reset_index()
+sum_over_race['race'] = 0
+
+sum_over_cause_race = soln4.groupby(['county']).agg({'soln': 'sum'}).reset_index()
+sum_over_cause_race['cause'] = '_all'
+sum_over_cause_race['race'] = 0
+
+sum_over_race_county = soln4.groupby(['cause']).agg({'soln': 'sum'}). \
+    merge(margins, on=['cause'], how='inner').reset_index()
+assert np.allclose(sum_over_race_county.value.to_numpy(), \
+                   sum_over_race_county.soln.to_numpy())
+
+result4 = pd.concat([soln4, sum_over_cause, sum_over_race, sum_over_cause_race]). \
+    merge(df, how='inner', on=['cause', 'race', 'county'])
+
+# Raking with imputing the missing value with the mean and givig them a very small weight
+df5 = df.copy(deep=True)
+df_mean = observations.value.mean()
+df5['value'].loc[(df5.cause!='_all')&(df5.race==3)&(df5.county==533)] = df_mean
+df5['weights'].loc[(df5.cause!='_all')&(df5.race==3)&(df5.county==533)] = 0.0001
+df5 = df5.loc[(df5.cause!='_all')|(df5.race!=3)|(df5.county!=533)]
+df5.reset_index(drop=True, inplace=True)
+
+data5 = data_builder.build(df5)
+
+solver5 = DualSolver(distance='entropic', data=data5)
+soln5 = solver5.solve()
+
+sum_over_cause = soln5.groupby(['race', 'county']).agg({'soln': 'sum'}).reset_index()
+sum_over_cause['cause'] = '_all'
+
+sum_over_race = soln5.groupby(['cause', 'county']).agg({'soln': 'sum'}).reset_index()
+sum_over_race['race'] = 0
+
+sum_over_cause_race = soln5.groupby(['county']).agg({'soln': 'sum'}).reset_index()
+sum_over_cause_race['cause'] = '_all'
+sum_over_cause_race['race'] = 0
+
+sum_over_race_county = soln5.groupby(['cause']).agg({'soln': 'sum'}). \
+    merge(margins, on=['cause'], how='inner').reset_index()
+assert np.allclose(sum_over_race_county.value.to_numpy(), \
+                   sum_over_race_county.soln.to_numpy())
+
+result5 = pd.concat([soln5, sum_over_cause, sum_over_race, sum_over_cause_race]). \
+    merge(df, how='inner', on=['cause', 'race', 'county'])
+
 # Plot and compare
 result['Missing values'] = 'Present'
 result2['Missing values'] = 'Filled with 0'
 result3['Missing values'] = 'Missing'
-df_res = pd.concat([result, result2, result3])
+result4['Missing values'] = 'Miss. exc. agg.'
+result5['Missing values'] = 'Small weights'
+df_res = pd.concat([result, result2, result3, result4, result5])
 
-chart1 = alt.Chart(df_res).mark_circle().encode(
+chart1 = alt.Chart(df_res).mark_point(size=200).encode(
     x = alt.X('value:Q', axis=alt.Axis(title='Initial values')),
     y = alt.Y('soln:Q', axis=alt.Axis(title='Raked values')),
-    color=alt.Color('Missing values:N')
+    color=alt.Color('Missing values:N'),
+    shape=alt.Shape('Missing values:N')
 ).properties(
     title='All observations'
 )
 
-chart2 = alt.Chart(df_res.loc[(df_res.race==3)&(df_res.county==533)]).mark_circle().encode(
+chart2 = alt.Chart(df_res.loc[(df_res.race==3)&(df_res.county==533)]).mark_point(size=200).encode(
     x = alt.X('value:Q', axis=alt.Axis(title='Initial values')),
     y = alt.Y('soln:Q', axis=alt.Axis(title='Raked values')),
-    color=alt.Color('Missing values:N')
+    color=alt.Color('Missing values:N'),
+    shape=alt.Shape('Missing values:N')
 ).properties(
     title='Missing observations'
 )
