@@ -1,8 +1,6 @@
 # Raking paper
 
-This repository contains a Jupyter notebook necessary to reproduce the figures for the synthetic dataset in the paper Uncertainty Quantification under Noisy Constraints, with Applications to Raking submitted to JUQ.
-
-The Jupyter notebook explains how to generate a synthetic dataset and compare the raked values and their uncertainties obtained with the Delta method and Implicit Function Theorem and with the Monte Carlo simulations.
+This repository contains the data and the codes necessary to reproduce the figures in the paper Optimization Perspective on Raking available on [arXiv](https://arxiv.org/abs/2407.20520).  
 
 You should first install the raking package through the GitHub repository:
 
@@ -16,24 +14,19 @@ git clone "https://github.com/ihmeuw-msca/raking"
 cd raking
 ```
 
-- Create a new pip environment:
+- Create a new conda environment using the existing yml file:
 ```
-python3 -m venv .venv
+conda env create -f environment.yml 
 ```
 
 - Activate the new environment:
 ```
-source .venv/bin/activate
+conda activate env_raking
 ```
 
 - Upgrade pip:
 ```
-python3 -m pip install --upgrade pip
-```
-
-- Install necessary Python packages. I usually install all of these:
-```
-python3 -m pip install altair dash dash-bootstrap-components ipykernel jupyterlab matplotlib notebook numpy pandas plotly scipy vegafusion vegafusion-python-embed vl-convert-python dash-vega-components pyreadr
+pip install --upgrade pip
 ```
 
 - Install the raking package:
@@ -41,15 +34,20 @@ python3 -m pip install altair dash dash-bootstrap-components ipykernel jupyterla
 pip install -e .
 ```
 
-- Create an environment to run the notebook:
+Some of the methods described in the paper use an experimental version of the user interface that is not yet available on the [PyPI version](https://pypi.org/project/raking/) of the raking package. To reproduce the corresponding figures, please switch to the experimental branch of the GitHub repository:
 ```
-python3 -m ipykernel install --user --name env_raking --display-name "env_raking"
-```
-
-- Launch Jupyterlab:
-```
-jupyter lab
+git checkout experimental
 ```
 
-You can then open and run the notebook by changing the kernel to "env_raking" in Jupyterlab.
+The script methods/distances_figure.py is used to make the figure in the part 3.2.1 Raking losses of the paper.
+
+The notebook methods/simulation_choice_weights.ipynb is used to make the figure in the part 3.2.2 Differential weights of the paper.
+
+The script methods/aggregate_data_figure.py is used to make the figure in the part 3.2.3 Aggregate observations of the paper.
+
+The script methods/missing_data_figure.py is used to make the figure in the part 3.2.4 Missing data of the paper.
+
+The notebook synthetics/synthetic_example.ipynb is used to make the figures in the part 3.2.5 2D Raking Example with Uncertainty Quantification of the paper.
+
+The Python scripts in the application directory are used to run the raking on the data and make the figures in part 3.3 Application to mortality estimates of the paper.
 

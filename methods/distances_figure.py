@@ -4,7 +4,7 @@ import pandas as pd
 
 from raking.run_raking import run_raking
 
-# Define raking problem
+# Define raking problem)
 rng = np.random.default_rng(0)
 y = rng.uniform(low=2.0, high=4.0, size=(4, 5))
 y = y.flatten(order="F")
