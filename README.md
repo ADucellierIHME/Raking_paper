@@ -39,15 +39,22 @@ Some of the methods described in the paper use an experimental version of the us
 git checkout experimental
 ```
 
-The script methods/distances_figure.py is used to make the figure in the part 3.2.1 Raking losses of the paper.
+- Now clone this repository:
+```
+git clone "https://github.com/ADucellierIHME/Raking_paper.git"
+```
 
-The notebook methods/simulation_choice_weights.ipynb is used to make the figure in the part 3.2.2 Differential weights of the paper.
+You can now use the Python scripts in this repository to reproduce the figures.
 
-The script methods/aggregate_data_figure.py is used to make the figure in the part 3.2.3 Aggregate observations of the paper.
+The script methods/distances_figure.py is used to make the figure in the Appendix B.1 Impact of Raking Loss of the paper.
 
-The script methods/missing_data_figure.py is used to make the figure in the part 3.2.4 Missing data of the paper.
+The notebook methods/simulation_choice_weights.ipynb is used to make the figure in the Appendix B.2 Impact of Differential Weights of the paper.
 
-The notebook synthetics/synthetic_example.ipynb is used to make the figures in the part 3.2.5 2D Raking Example with Uncertainty Quantification of the paper.
+The script methods/aggregate_data_figure.py is used to make the figure in the Appendix B.3 Using Aggregates as Observations of the paper.
 
-The Python scripts in the application directory are used to run the raking on the data and make the figures in part 3.3 Application to mortality estimates of the paper.
+The script methods/missing_data_figure.py is used to make the figure in the Appendix B.4 Strategies for Missing Data of the paper.
+
+The notebook synthetics/synthetic_example.ipynb is used to make the figures in the Appendic B.5 Uncertainty Quantification of the paper.
+
+The Python scripts in the application directory are used to run the raking on the data and make the figures in the Section 3.3 Application to Mortality Estimates and the Appendices C.2 Additional Results and C.3 Influence of Observations on Raked Values of the paper.
 
