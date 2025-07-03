@@ -41,107 +41,114 @@ df['county'] = df['county'].replace(302, 'New Castle')
 df['county'] = df['county'].replace(303, 'Sussex')
 
 # Fix race and county, show values by cause
-bar = alt.Chart(df).mark_errorbar(clip=True, opacity=0.5).encode(
-    alt.X('Upper:Q',
-        axis=alt.Axis(title='Raked value')),
+bar = alt.Chart().mark_errorbar(clip=True, opacity=0.5).encode(
+    alt.X('Upper:Q', axis=alt.Axis(title='Mortality rate', format='.1e')),
     alt.X2('Lower:Q'),
-    alt.Y('cause:N',
-        axis=alt.Axis(title='Cause')),    
+    alt.Y('cause:N', axis=alt.Axis(title=None)),    
     color=alt.Color('Type:N', legend=None),
     strokeWidth=alt.StrokeWidth('width:Q', legend=None)
 )
-point = alt.Chart(df).mark_point(
-    filled=True
+point = alt.Chart().mark_point(
+    filled=False
 ).encode(
-    alt.X('Value:Q'),
-    alt.Y('cause:N'),
-    color=alt.Color('Type:N'),
-    shape=alt.Shape('Type:N')
+    alt.X('Value:Q', axis=alt.Axis(title='Mortality rate', format='.1e')), 
+    alt.Y('cause:N', axis=alt.Axis(title=None)), 
+    color=alt.Color('Type:N', legend=alt.Legend(title=None)),
+    shape=alt.Shape('Type:N', legend=alt.Legend(title=None))
 )
-chart = alt.layer(point, bar).resolve_scale(
-    shape='independent',
-    color='independent'
+chart = alt.layer(
+    bar,
+    point,
+    data=df   
 ).facet(
     column=alt.Column('county:N',
-        header=alt.Header(title='County', titleFontSize=24, labelFontSize=24)),
+        header=alt.Header(title=None, titleFontSize=18, labelFontSize=18)),
     row =alt.Row('race:N',
-        header=alt.Header(title='Race', titleFontSize=24, labelFontSize=24))
+        sort=['All', 'White', 'Hisp.', 'Black', 'API', 'AIAN'],
+        header=alt.Header(title=None, titleFontSize=18, labelFontSize=18))
 ).configure_axis(
-    labelFontSize=24,
-    titleFontSize=24
+    labelFontSize=18,
+    titleFontSize=18
 ).configure_legend(
-    labelFontSize=24,
-    titleFontSize=24
+    labelFontSize=18,
+    titleFontSize=18
 )
 chart.save('raked_values_with_uncertainty_by_cause_25.svg')
 
 # Fix cause and county, show values by race
-bar = alt.Chart(df).mark_errorbar(clip=True, opacity=0.5).encode(
-    alt.X('Upper:Q',
-        axis=alt.Axis(title='Raked value')),
+bar = alt.Chart().mark_errorbar(clip=True, opacity=0.5).encode(
+    alt.X('Upper:Q', axis=alt.Axis(title='Mortality rate', format='.1e')),
     alt.X2('Lower:Q'),
     alt.Y('race:N',
-        axis=alt.Axis(title='Race')),  
+          axis=alt.Axis(title=None),
+          sort=['All', 'White', 'Hisp.', 'Black', 'API', 'AIAN']
+    ),    
     color=alt.Color('Type:N', legend=None),
     strokeWidth=alt.StrokeWidth('width:Q', legend=None)
 )
-point = alt.Chart(df).mark_point(
-    filled=True
+point = alt.Chart().mark_point(
+    filled=False
 ).encode(
-    alt.X('Value:Q'),
-    alt.Y('race:N'),
-    color=alt.Color('Type:N'),
-    shape=alt.Shape('Type:N')
+    alt.X('Value:Q', axis=alt.Axis(title='Mortality rate', format='.1e')), 
+    alt.Y('race:N',
+          axis=alt.Axis(title=None),
+          sort=['All', 'White', 'Hisp.', 'Black', 'API', 'AIAN']
+    ), 
+    color=alt.Color('Type:N', legend=alt.Legend(title=None)),
+    shape=alt.Shape('Type:N', legend=alt.Legend(title=None))
 )
-chart = alt.layer(point, bar).resolve_scale(
-    shape='independent',
-    color='independent'
+chart = alt.layer(
+    bar,
+    point,
+    data=df   
 ).facet(
     column=alt.Column('county:N',
-        header=alt.Header(title='County', titleFontSize=24, labelFontSize=24)),
+        header=alt.Header(title=None, titleFontSize=18, labelFontSize=18)),
     row =alt.Row('cause:N',
-        header=alt.Header(title='Cause', titleFontSize=24, labelFontSize=24))
+        sort=['All', 'Comm.', 'NCD', 'Inj.'],
+        header=alt.Header(title=None, titleFontSize=18, labelFontSize=18))
 ).configure_axis(
-    labelFontSize=24,
-    titleFontSize=24
+    labelFontSize=18,
+    titleFontSize=18
 ).configure_legend(
-    labelFontSize=24,
-    titleFontSize=24
+    labelFontSize=18,
+    titleFontSize=18
 )
 chart.save('raked_values_with_uncertainty_by_race_25.svg')
 
 # Fix cause and race, show values by county
-bar = alt.Chart(df).mark_errorbar(clip=True, opacity=0.5).encode(
-    alt.X('Upper:Q',
-        axis=alt.Axis(title='Raked value')),
+bar = alt.Chart().mark_errorbar(clip=True, opacity=0.5).encode(
+    alt.X('Upper:Q', axis=alt.Axis(title='Mortality rate', format='.1e')),
     alt.X2('Lower:Q'),
-    alt.Y('county:N',
-        axis=alt.Axis(title='County')),
+    alt.Y('county:N', axis=alt.Axis(title=None)),    
     color=alt.Color('Type:N', legend=None),
     strokeWidth=alt.StrokeWidth('width:Q', legend=None)
 )
-point = alt.Chart(df).mark_point(
-    filled=True
+point = alt.Chart().mark_point(
+    filled=False
 ).encode(
-    alt.X('Value:Q'),
-    alt.Y('county:N'),
-    color=alt.Color('Type:N'),
-    shape=alt.Shape('Type:N')
+    alt.X('Value:Q', axis=alt.Axis(title='Mortality rate', format='.1e')), 
+    alt.Y('county:N', axis=alt.Axis(title=None)), 
+    color=alt.Color('Type:N', legend=alt.Legend(title=None)),
+    shape=alt.Shape('Type:N', legend=alt.Legend(title=None))
 )
-chart = alt.layer(point, bar).resolve_scale(
-    shape='independent',
-    color='independent'
+chart = alt.layer(
+    bar,
+    point,
+    data=df   
 ).facet(
     column=alt.Column('cause:N',
-        header=alt.Header(title='Cause', titleFontSize=24, labelFontSize=24)),
+        sort=['All', 'Comm.', 'NCD', 'Inj.'],
+        header=alt.Header(title=None, titleFontSize=18, labelFontSize=18)),
     row =alt.Row('race:N',
-        header=alt.Header(title='Race', titleFontSize=24, labelFontSize=24))
+        sort=['All', 'White', 'Hisp.', 'Black', 'API', 'AIAN'],
+        header=alt.Header(title=None, titleFontSize=18, labelFontSize=18))
 ).configure_axis(
-    labelFontSize=24,
-    titleFontSize=24
+    labelFontSize=18,
+    titleFontSize=18
 ).configure_legend(
-    labelFontSize=24,
-    titleFontSize=24
+    labelFontSize=18,
+    titleFontSize=18
 )
 chart.save('raked_values_with_uncertainty_by_county_25.svg')
 

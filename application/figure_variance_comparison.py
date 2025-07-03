@@ -24,10 +24,10 @@ max_x = max(df_both['all_draws'].max(), df_both['delta_method'].max())
 # Plot
 points = alt.Chart(df_both).mark_circle(size=60).encode(
     x=alt.X('all_draws:Q', \
-        axis=alt.Axis(title='Using all samples'), \
+        axis=alt.Axis(title='Σ(𝞿(yᵢ,sᵢ)-𝞫)² / N'), \
         scale=alt.Scale(domain=[min_x, max_x], zero=False)),
     y=alt.Y('delta_method:Q', \
-        axis=alt.Axis(title='Using delta method'), \
+        axis=alt.Axis(title="𝞿'𝜮𝞿'ᵀ"), \
         scale=alt.Scale(domain=[min_x, max_x], zero=False))
 )
 diagonal = alt.Chart().mark_rule(strokeDash=[8, 8]).encode(
@@ -37,8 +37,8 @@ diagonal = alt.Chart().mark_rule(strokeDash=[8, 8]).encode(
     y2=alt.value(0)
 )
 chart = (diagonal + points).configure_axis(
-    labelFontSize=24,
-    titleFontSize=24
+    labelFontSize=18,
+    titleFontSize=18
 )
 chart.save('comparison_variances_25.svg')
 
