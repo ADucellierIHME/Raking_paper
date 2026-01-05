@@ -1,4 +1,5 @@
 import altair as alt
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import pickle
@@ -21,23 +22,29 @@ min_x = min(df_both['all_draws'].min(), df_both['mean'].min())
 max_x = max(df_both['all_draws'].max(), df_both['mean'].max())
 
 # Plot
-points = alt.Chart(df_both).mark_circle(size=60).encode(
-    x=alt.X('all_draws:Q', \
-        axis=alt.Axis(title='Σ𝞿(yᵢ,sᵢ) / N'), \
-        scale=alt.Scale(domain=[min_x, max_x], zero=False)),
-    y=alt.Y('mean:Q', \
-        axis=alt.Axis(title='𝞿(y\u0305,s\u0305)'), \
-        scale=alt.Scale(domain=[min_x, max_x], zero=False))
-)
-diagonal = alt.Chart().mark_rule(strokeDash=[8, 8]).encode(
-    x=alt.value(0),
-    x2=alt.value('width'),
-    y=alt.value('height'),
-    y2=alt.value(0)
-)
-chart = (diagonal + points).configure_axis(
-    labelFontSize=18,
-    titleFontSize=18
-)
-chart.save('comparison_means_25.svg')
+#points = alt.Chart(df_both).mark_circle(size=60).encode(
+#    x=alt.X('all_draws:Q', \
+#        axis=alt.Axis(title='Σ𝞿(yᵢ,sᵢ) / N'), \
+#        scale=alt.Scale(domain=[min_x, max_x], zero=False)),
+#    y=alt.Y('mean:Q', \
+#        axis=alt.Axis(title='𝞿(y\u0305,s\u0305)'), \
+#        scale=alt.Scale(domain=[min_x, max_x], zero=False))
+#)
+#diagonal = alt.Chart().mark_rule(strokeDash=[8, 8]).encode(
+#    x=alt.value(0),
+#    x2=alt.value('width'),
+#    y=alt.value('height'),
+#    y2=alt.value(0)
+#)
+#chart = (diagonal + points).configure_axis(
+#    labelFontSize=18,
+#    titleFontSize=18
+#)
+plt.rcParams['text.usetex'] = True
+fig, ax = plt.subplots()
+ax.axline((min_x, max_x), slope=1, color="black", linestyle='--')
+ax.plot(df_both['all_draws'].to_numpy(), df_both['mean'].to_numpy(), 'bo')
+ax.set(xlim=(min_x, max_x), ylim=(min_x, max_x), xlabel=r'\frac{1}{N} \sum_{i = 1}^N \phi \left( y_^{\left( i \right)} , s_^{\left( i \right)} \right)')
+
+#chart.save('comparison_means_25.svg')
 

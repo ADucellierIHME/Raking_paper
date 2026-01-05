@@ -19,6 +19,7 @@ df_obs = df_obs.merge(df_std, on=['cause', 'race', 'county'], how='left')
     df_obs=df_obs,
     df_margins=[df_margins],
     var_names=None,
+    margin_names=["_all", 0, 0],
     cov_mat=True,
     draws='samples'
 )

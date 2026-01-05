@@ -18,8 +18,10 @@ for n in df_obs.samples.unique():
         df_obs=df_obs_loc,
         df_margins=[df_margins_loc],
         var_names=None,
+        margin_names=["_all", 0, 0],
         cov_mat=False,
     )
+    df_obs_loc['samples'] = n
     df_raked.append(df_obs_loc)
 df_raked = pd.concat(df_raked)
 

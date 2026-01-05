@@ -50,7 +50,7 @@ for county in counties:
 df_obs_2 = pd.concat(df_obs_2)
 
 # Third step: Rake all races mortality by cause and county to all causes and state value
-df_obs_3 = df_obs.loc[(df_obs.cause!='_all')&(df_obs.race==1)]
+df_obs_3 = df_obs.loc[(df_obs.cause!='_all')&(df_obs.race==0)]
 df_obs_3 = df_obs_3[['cause', 'county', 'value', 'upper']]
 df_margins_3_1 = df_obs_1[['county', 'raked_value']]. \
     rename(columns={'raked_value': 'value_agg_over_cause'})
