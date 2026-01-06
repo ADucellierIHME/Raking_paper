@@ -1,17 +1,17 @@
 # Raking paper
 
-This repository contains the data and the codes necessary to reproduce the figures in the paper Optimization Perspective on Raking available on [arXiv](https://arxiv.org/abs/2407.20520).  
+This repository contains the data and the codes necessary to reproduce the figures in the paper Raking mortality rates across cause, population group and geography with uncertainty quantification, available on [arXiv](https://arxiv.org/abs/2407.20520).  
 
 You should first install the raking package through the GitHub repository:
 
-- Clone the raking repository:
+- First clone this repository:
 ```
-git clone "https://github.com/ihmeuw-msca/raking"
+git clone "https://github.com/ADucellierIHME/Raking_paper.git"
 ```
 
-- Go to the new raking directory:
+- Go to the new raking paper directory:
 ```
-cd raking
+cd Raking_paper
 ```
 
 - Create a new conda environment using the existing yml file:
@@ -29,19 +29,20 @@ conda activate env_raking
 pip install --upgrade pip
 ```
 
+Go back to the parent directory and clone the raking package repository:
+```
+cd ..
+git clone "https://github.com/ihmeuw-msca/raking"
+```
+
+- Go to the new raking directory:
+```
+cd raking
+```
+
 - Install the raking package:
 ```
 pip install -e .
-```
-
-Some of the methods described in the paper use an experimental version of the user interface that is not yet available on the [PyPI version](https://pypi.org/project/raking/) of the raking package. To reproduce the corresponding figures, please switch to the experimental branch of the GitHub repository:
-```
-git checkout experimental
-```
-
-- Now clone this repository:
-```
-git clone "https://github.com/ADucellierIHME/Raking_paper.git"
 ```
 
 You can now use the Python scripts in this repository to reproduce the figures.
@@ -58,3 +59,4 @@ The notebook synthetics/synthetic_example.ipynb is used to make the figures in t
 
 The Python scripts in the application directory are used to run the raking on the data and make the figures in the Section 3.3 Application to Mortality Estimates and the Appendices C.2 Additional Results and C.3 Influence of Observations on Raked Values of the paper.
 
+Although the raking package is written in Python, it is possible to use it with R, a Python conda environment with the raking package installed, and the R library reticulate. In the Rcode directory, you will find examples of R code to run the same scripts and check that we obtain the same results.
