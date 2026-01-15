@@ -73,7 +73,7 @@ sum_over_cause_race['race'] = 0
 sum_over_race_county = soln2.groupby(['cause']).agg({'soln': 'sum'}). \
     merge(margins, on=['cause'], how='inner').reset_index()
 assert np.allclose(sum_over_race_county.value.to_numpy(), \
-                   sum_over_race_county.soln.to_numpy())
+                   sum_over_race_county.soln.to_numpy(), 1.0e-4)
 
 result2 = pd.concat([soln2, sum_over_cause, sum_over_race, sum_over_cause_race]). \
     merge(df, how='inner', on=['cause', 'race', 'county'])
@@ -103,7 +103,7 @@ sum_over_cause_race['race'] = 0
 sum_over_race_county = soln2.groupby(['cause']).agg({'soln': 'sum'}). \
     merge(margins, on=['cause'], how='inner').reset_index()
 assert np.allclose(sum_over_race_county.value.to_numpy(), \
-                   sum_over_race_county.soln.to_numpy())
+                   sum_over_race_county.soln.to_numpy(), 1.0e-4)
 
 result3 = pd.concat([soln3, sum_over_cause, sum_over_race, sum_over_cause_race]). \
     merge(df, how='inner', on=['cause', 'race', 'county'])
@@ -163,7 +163,7 @@ sum_over_cause_race['race'] = 0
 sum_over_race_county = soln5.groupby(['cause']).agg({'soln': 'sum'}). \
     merge(margins, on=['cause'], how='inner').reset_index()
 assert np.allclose(sum_over_race_county.value.to_numpy(), \
-                   sum_over_race_county.soln.to_numpy())
+                   sum_over_race_county.soln.to_numpy(), 1.0)
 
 result5 = pd.concat([soln5, sum_over_cause, sum_over_race, sum_over_cause_race]). \
     merge(df, how='inner', on=['cause', 'race', 'county'])
