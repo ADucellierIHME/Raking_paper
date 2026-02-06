@@ -5,7 +5,7 @@ import pickle
 
 pd.options.mode.chained_assignment = None
 
-with open('results_25.pkl', 'rb') as fp:
+with open('results.pkl', 'rb') as fp:
     [df_obs, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 
 df_initial = df_obs[['cause', 'race', 'county', 'value', 'upper', 'std']]. \
@@ -30,12 +30,12 @@ df['cause'] = df['cause'].replace('_all', 'All')
 df['cause'] = df['cause'].replace('_comm', 'Comm.')
 df['cause'] = df['cause'].replace('_ncd', 'NCD')
 df['cause'] = df['cause'].replace('_inj', 'Inj.')
-df['race'] = df['race'].replace(0, 'All')
-df['race'] = df['race'].replace(1, 'White')
-df['race'] = df['race'].replace(2, 'Black')
-df['race'] = df['race'].replace(3, 'AIAN')
-df['race'] = df['race'].replace(4, 'API')
-df['race'] = df['race'].replace(7, 'Hisp.')
+df['race'] = df['race'].replace(1, 'All')
+df['race'] = df['race'].replace(2, 'Hisp.')
+df['race'] = df['race'].replace(4, 'Black')
+df['race'] = df['race'].replace(5, 'White')
+df['race'] = df['race'].replace(6, 'AIAN')
+df['race'] = df['race'].replace(7, 'API')
 df['county'] = df['county'].replace(301, 'Kent')
 df['county'] = df['county'].replace(302, 'New Castle')
 df['county'] = df['county'].replace(303, 'Sussex')

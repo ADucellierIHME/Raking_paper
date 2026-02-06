@@ -5,7 +5,7 @@ import pickle
 
 pd.options.mode.chained_assignment = None
 
-with open('results_25.pkl', 'rb') as fp:
+with open('results.pkl', 'rb') as fp:
     [df, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 df['value'] = df['value'] / df['upper']
 df['raked_value'] = df['raked_value'] / df['upper']

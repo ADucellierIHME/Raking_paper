@@ -5,11 +5,11 @@ import pickle
 
 pd.options.mode.chained_assignment = None
 
-with open('results_25.pkl', 'rb') as fp:
+with open('results.pkl', 'rb') as fp:
     [df1, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 df1['workflow'] = '1'
 
-with open('results_25_4steps.pkl', 'rb') as fp:
+with open('results_4steps.pkl', 'rb') as fp:
     df2 = pickle.load(fp)
 df2['workflow'] = '2(K+1)'
 
@@ -44,5 +44,5 @@ chart = alt.layer(
     labelFontSize=14,
     titleFontSize=14
 )
-chart.save('comparison_workflows_scatter_25.svg')
+chart.save('comparison_workflows_scatter.svg')
 

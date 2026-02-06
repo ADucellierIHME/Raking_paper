@@ -5,20 +5,20 @@ import pickle
 
 # Name and number of causes, races and counties
 causes = ['All', 'Comm.', 'Inj.', 'NCD']
-races = ['All', 'White', 'Black', 'AIAN', 'API', 'Hisp.']
+races = ['All', 'Hisp.', 'Black', 'White', 'AIAN', 'API']
 counties = ['Kent', 'New Castle', 'Sussex'] 
 I = 3
 J = 5
 K = 3
 
 # Location of raked value
-k = 1
-j = 1
-i = 2
+k = 2
+j = 3
+i = 1
 index = (I + 1) * (J + 1) * int(k) + (I + 1) * int(j) + int(i)
 
 # Read gradient with respect to the data
-with open('results_25.pkl', 'rb') as fp:
+with open('results.pkl', 'rb') as fp:
     [df_obs, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 
 obs = Dphi_y[index, :]
@@ -133,5 +133,5 @@ chart = alt.hconcat(chart_margins, chart_county, chart_cause, chart_race
 ).configure_text(
     fontSize=8
 )
-chart.save('most_important_raked_value_25.svg')
+chart.save('most_important_raked_value.svg')
 

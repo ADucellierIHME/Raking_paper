@@ -4,13 +4,13 @@ import pandas as pd
 import pickle
 
 # All draws
-with open('results_25_MC.pkl', 'rb') as fp:
+with open('results_MC.pkl', 'rb') as fp:
     df_all = pickle.load(fp)
 df_all = df_all.groupby(['cause', 'race', 'county']).std().reset_index()
 df_all.rename(columns={'raked_value': 'all_draws'}, inplace=True)
 
 # With IFT and delta method
-with open('results_25.pkl', 'rb') as fp:
+with open('results.pkl', 'rb') as fp:
     [df, Dphi_y, Dphi_s, sigma] = pickle.load(fp)
 df.rename(columns={'variance': 'delta_method'}, inplace=True)
 df['delta_method'] = np.sqrt(df['delta_method']) 
@@ -40,5 +40,5 @@ chart = (diagonal + points).configure_axis(
     labelFontSize=18,
     titleFontSize=18
 )
-chart.save('comparison_variances_25.svg')
+chart.save('comparison_variances.svg')
 
