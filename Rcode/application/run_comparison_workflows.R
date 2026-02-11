@@ -7,8 +7,8 @@ Sys.setenv("RETICULATE_PYTHON" = '/Users/ducela/anaconda3/envs/env_raking/bin/py
 run_raking <- reticulate::import("raking.run_raking")
 
 # Read dataset
-df_obs = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/observations_25.csv')
-df_margins = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/margins_25.csv')
+df_obs = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/observations.csv')
+df_margins = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/margins.csv')
 
 counties <- df_obs %>% distinct(county)
 
@@ -26,7 +26,7 @@ df_margins <- df_margins %>%
 
 # First step: Rake all races all causes mortality by county to state value
 df_obs_1 <- df_obs %>%
-  filter((cause=='_all') & (race==0)) %>%
+  filter((cause=='_all') & (race==1)) %>%
   select(cause, race, county, value, upper)
 df_margins_1 <- df_margins %>%
   filter(cause=='_all') %>%
@@ -45,7 +45,7 @@ df_obs_1 = result[[1]]
 df_obs_2 = list()
 for (n in counties$county) {
   df_obs_2_loc <- df_obs %>%
-    filter((cause=='_all') & (race!=0) & (county==n)) %>%
+    filter((cause=='_all') & (race!=1) & (county==n)) %>%
     select(cause, race, county, value, upper)
   df_margins_2 <- df_obs_1 %>%
     filter(county==n) %>%
@@ -64,7 +64,7 @@ for (n in counties$county) {
 
 # Third step: Rake all races mortality by cause and county to all causes and state value
 df_obs_3 <- df_obs %>%
-  filter((cause!='_all') & (race==0)) %>%
+  filter((cause!='_all') & (race==1)) %>%
   select(cause, race, county, value, upper)
 df_margins_3_1 <- df_obs_1 %>%
   select(county, raked_value) %>%
@@ -85,7 +85,7 @@ df_obs_3 = result[[1]]
 df_obs_4 = list()
 for (n in counties$county) {
   df_obs_4_loc <- df_obs %>%
-    filter((cause!='_all') & (race!=0) & (county==n)) %>%
+    filter((cause!='_all') & (race!=1) & (county==n)) %>%
     select(cause, race, county, value, upper)
   df_margins_4_1 <- df_obs_2 %>%
     filter(county==n) %>%
@@ -110,7 +110,7 @@ for (n in counties$county) {
 df_raked = bind_rows(df_obs_1, df_obs_2, df_obs_3, df_obs_4)
 
 # Load the results computed with Python
-result_python = py_load_object('/Users/ducela/Documents/Raking/perso/Raking_paper/application/results_25_4steps.pkl', pickle='pickle')
+result_python = py_load_object('/Users/ducela/Documents/Raking/perso/Raking_paper/application/results_4steps.pkl', pickle='pickle')
 
 # Compare the results
 print(max(abs(df_raked$raked_value - result_python$raked_value)))

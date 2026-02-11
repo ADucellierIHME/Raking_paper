@@ -47,16 +47,14 @@ pip install -e .
 
 You can now use the Python scripts in this repository to reproduce the figures.
 
-The script methods/distances_figure.py is used to make the figure in the Appendix B.1 Impact of Raking Loss of the paper.
+The notebook methods/simulation_choice_weights.ipynb is used to make the figure in the Supplement 3, Section 1.
 
-The notebook methods/simulation_choice_weights.ipynb is used to make the figure in the Appendix B.2 Impact of Differential Weights of the paper.
+The script methods/distances_figure.py is used to make the figure in the Supplement 3, Section 2.
 
-The script methods/aggregate_data_figure.py is used to make the figure in the Appendix B.3 Using Aggregates as Observations of the paper.
+The script methods/missing_data_figure.py is used to make the figure in the Supplement 3, Section 3.
 
-The script methods/missing_data_figure.py is used to make the figure in the Appendix B.4 Strategies for Missing Data of the paper.
+The notebook synthetics/synthetic_example.ipynb is used to make the figures in the Section 2.
 
-The notebook synthetics/synthetic_example.ipynb is used to make the figures in the Appendic B.5 Uncertainty Quantification of the paper.
-
-The Python scripts in the application directory are used to run the raking on the data and make the figures in the Section 3.3 Application to Mortality Estimates and the Appendices C.2 Additional Results and C.3 Influence of Observations on Raked Values of the paper.
+The Python scripts in the application directory are used to run the raking on the data and make the figures in the Section 4.
 
 Although the raking package is written in Python, it is possible to use it with R, a Python conda environment with the raking package installed, and the R library reticulate. In the Rcode directory, you will find examples of R code to run the same scripts and check that we obtain the same results.

@@ -7,8 +7,8 @@ Sys.setenv("RETICULATE_PYTHON" = '/Users/ducela/anaconda3/envs/env_raking/bin/py
 run_raking <- reticulate::import("raking.run_raking")
 
 # Read dataset
-df_obs = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/observations_25.csv')
-df_margins = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/margins_25.csv')
+df_obs = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/observations.csv')
+df_margins = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/margins.csv')
 
 # Compute the standard deviations of the observations
 df_std <- df_obs %>% 
@@ -22,7 +22,7 @@ result <- run_raking$run_raking(
   df_obs=df_obs,
   df_margins=list(df_margins),
   var_names=NULL,
-  margin_names=list('_all', 0, 0),
+  margin_names=list('_all', 1, 0),
   cov_mat=TRUE,
   draws='samples'
 )
@@ -34,7 +34,7 @@ Dphi_s = result[[3]]
 sigma = result[[4]]
 
 # Load the results computed with Python
-result_python = py_load_object('/Users/ducela/Documents/Raking/perso/Raking_paper/application/results_25.pkl', pickle='pickle')
+result_python = py_load_object('/Users/ducela/Documents/Raking/perso/Raking_paper/application/results.pkl', pickle='pickle')
 
 # Compare the results
 print(max(abs(df_obs$raked_value - result_python[[1]]$raked_value)))

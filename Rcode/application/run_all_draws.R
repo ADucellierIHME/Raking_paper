@@ -7,8 +7,8 @@ Sys.setenv("RETICULATE_PYTHON" = '/Users/ducela/anaconda3/envs/env_raking/bin/py
 run_raking <- reticulate::import("raking.run_raking")
 
 # Read dataset
-df_obs = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/observations_25.csv')
-df_margins = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/margins_25.csv')
+df_obs = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/observations.csv')
+df_margins = read_csv('/Users/ducela/Documents/Raking/perso/Raking_paper/application/margins.csv')
 
 # Rake all the draws
 df_raked = list()
@@ -25,7 +25,7 @@ for (n in samples$samples) {
     df_obs=df_obs_loc,
     df_margins=list(df_margins_loc),
     var_names=NULL,
-    margin_names=list('_all', 0, 0),
+    margin_names=list('_all', 1, 0),
     cov_mat=FALSE
   )
   result_loc = result[[1]]
@@ -34,7 +34,7 @@ for (n in samples$samples) {
 }
 
 # Load the results computed with Python
-result_python = py_load_object('/Users/ducela/Documents/Raking/perso/Raking_paper/application/results_25_MC.pkl', pickle='pickle')
+result_python = py_load_object('/Users/ducela/Documents/Raking/perso/Raking_paper/application/results_MC.pkl', pickle='pickle')
 
 # Compare the results
 print(max(abs(df_raked$raked_value - result_python$raked_value)))
